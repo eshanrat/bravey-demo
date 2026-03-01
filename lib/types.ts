@@ -1,25 +1,39 @@
-export type Priority = 'low' | 'medium' | 'high';
-export type Status = 'todo' | 'in_progress' | 'done';
+export type Category =
+  | 'breakfast'
+  | 'lunch'
+  | 'dinner'
+  | 'dessert'
+  | 'snack'
+  | 'drink';
 
-export interface Task {
+export interface Ingredient {
+  amount: string;
+  unit: string;
+  name: string;
+}
+
+export interface Recipe {
   id: string;
   title: string;
   description: string;
-  status: Status;
-  assignee: string | null;
+  category: Category;
+  prepMins: number;
+  cookMins: number;
+  servings: number;
+  ingredients: Ingredient[];
+  steps: string[];
+  imageUrl: string;
   createdAt: string;
-  updatedAt: string;
 }
 
-export interface CreateTaskInput {
+export interface CreateRecipeInput {
   title: string;
-  description?: string;
-  assignee?: string;
-}
-
-export interface UpdateTaskInput {
-  title?: string;
-  description?: string;
-  status?: Status;
-  assignee?: string | null;
+  description: string;
+  category: Category;
+  prepMins: number;
+  cookMins: number;
+  servings: number;
+  ingredients: Ingredient[];
+  steps: string[];
+  imageUrl?: string;
 }

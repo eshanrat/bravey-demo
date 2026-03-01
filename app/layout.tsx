@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'TaskFlow',
-  description: 'Simple task management for engineering teams',
+  title: 'Reciply',
+  description: 'Simple recipe discovery app',
 };
 
 export default function RootLayout({
