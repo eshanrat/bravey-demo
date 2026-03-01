@@ -1,6 +1,29 @@
+import { Suspense } from 'react';
 import { getAllRecipes } from '@/lib/recipes';
 import { RecipeListing } from '@/components/RecipeListing';
 import { ChefHat } from 'lucide-react';
+
+function RecipeListingFallback() {
+  const recipes = getAllRecipes();
+  
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {recipes.map((recipe) => (
+        <div key={recipe.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden animate-pulse">
+          <div className="h-44 w-full bg-gray-200" />
+          <div className="p-4">
+            <div className="h-4 bg-gray-200 rounded mb-2" />
+            <div className="h-3 bg-gray-200 rounded mb-3" />
+            <div className="flex gap-4">
+              <div className="h-3 bg-gray-200 rounded w-16" />
+              <div className="h-3 bg-gray-200 rounded w-20" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function Home() {
   const recipes = getAllRecipes();
@@ -17,7 +40,9 @@ export default function Home() {
         </p>
       </header>
 
-      <RecipeListing recipes={recipes} />
+      <Suspense fallback={<RecipeListingFallback />}>
+        <RecipeListing recipes={recipes} />
+      </Suspense>
     </div>
   );
 }
