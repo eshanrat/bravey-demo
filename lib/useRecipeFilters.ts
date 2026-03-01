@@ -4,6 +4,24 @@ import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Recipe, Category } from './types';
 
+function normalizeSearchText(text: string): string {
+  return text.toLowerCase().trim();
+}
+
+function matchesSearchQuery(recipe: Recipe, query: string): boolean {
+  const normalizedQuery = normalizeSearchText(query);
+  if (!normalizedQuery) return true;
+  
+  const searchableText = [
+    recipe.title,
+    recipe.description,
+    recipe.category,
+    ...recipe.ingredients.map(ing => ing.name)
+  ].join(' ');
+  
+  return normalizeSearchText(searchableText).includes(normalizedQuery);
+}
+
 export function useRecipeFilters(recipes: Recipe[]) {
   const router = useRouter();
   const pathname = usePathname();
@@ -49,10 +67,7 @@ export function useRecipeFilters(recipes: Recipe[]) {
   // Filter recipes based on search query and category
   const filteredRecipes = useMemo(() => {
     return recipes.filter((recipe) => {
-      const matchesSearch = !debouncedQuery || 
-        recipe.title.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
-        recipe.description.toLowerCase().includes(debouncedQuery.toLowerCase());
-      
+      const matchesSearch = matchesSearchQuery(recipe, debouncedQuery);
       const matchesCategory = selectedCategory === 'all' || recipe.category === selectedCategory;
       
       return matchesSearch && matchesCategory;
