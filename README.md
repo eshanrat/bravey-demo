@@ -11,6 +11,22 @@ This repository is used to showcase [Bravey](https://bravey.io) — an AI coding
 - **Styling**: Tailwind CSS
 - **Storage**: In-memory (see `lib/recipes.ts`)
 
+## Features
+
+- **Recipe Discovery**: Browse a collection of recipes with images, cooking times, and ingredients
+- **Search & Filter**: Find recipes by title, description, or ingredients with real-time search
+- **Category Filtering**: Filter recipes by category (Breakfast, Lunch, Dinner, Dessert, Snack, Drink)
+- **Bookmarkable URLs**: Share filtered results with URL query parameters
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+
+### Search Examples
+
+Try these URLs to see the search and filtering in action:
+- Search for mango: `/?q=mango`
+- Filter by drinks: `/?category=drink`
+- Search for chocolate desserts: `/?q=chocolate&category=dessert`
+- Find breakfast recipes: `/?category=breakfast`
+
 ## Getting started
 
 ```bash
