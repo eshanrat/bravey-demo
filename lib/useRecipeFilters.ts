@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Recipe, Category } from './types';
@@ -7,9 +9,9 @@ export function useRecipeFilters(recipes: Recipe[]) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
-  const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>(
-    (searchParams.get('category') as Category) || 'all'
+  const [searchQuery, setSearchQuery] = useState(() => searchParams?.get('q') || '');
+  const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>(() => 
+    (searchParams?.get('category') as Category) || 'all'
   );
   const [debouncedQuery, setDebouncedQuery] = useState(searchQuery);
 
@@ -24,21 +26,25 @@ export function useRecipeFilters(recipes: Recipe[]) {
 
   // Update URL params when filters change
   useEffect(() => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams?.toString());
     
     if (debouncedQuery) {
       params.set('q', debouncedQuery);
+    } else {
+      params.delete('q');
     }
     
     if (selectedCategory !== 'all') {
       params.set('category', selectedCategory);
+    } else {
+      params.delete('category');
     }
     
     const queryString = params.toString();
     const newUrl = queryString ? `${pathname}?${queryString}` : pathname;
     
     router.replace(newUrl, { scroll: false });
-  }, [debouncedQuery, selectedCategory, router, pathname]);
+  }, [debouncedQuery, selectedCategory, router, pathname, searchParams]);
 
   // Filter recipes based on search query and category
   const filteredRecipes = useMemo(() => {
