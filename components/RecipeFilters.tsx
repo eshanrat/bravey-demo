@@ -33,6 +33,8 @@ export function RecipeFilters({
     onSearchChange('');
   };
 
+  const hasActiveFilters = searchQuery || selectedCategory !== 'all';
+
   return (
     <div className="mb-8">
       {/* Search Bar */}
@@ -42,15 +44,16 @@ export function RecipeFilters({
         </div>
         <input
           type="text"
-          placeholder="Search recipes by title or description..."
+          placeholder="Search recipes by title, description, or ingredients..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent bg-white"
+          className="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent bg-white transition-shadow"
         />
         {searchQuery && (
           <button
             onClick={handleClearSearch}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Clear search"
           >
             <X className="h-5 w-5" />
           </button>
@@ -66,10 +69,10 @@ export function RecipeFilters({
               key={category.key}
               onClick={() => onCategoryChange(category.key)}
               className={clsx(
-                'px-4 py-2 rounded-full text-sm font-medium transition-colors',
+                'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
                 isActive
-                  ? 'bg-rose-500 text-white'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                  ? 'bg-rose-500 text-white shadow-md transform scale-105'
+                  : 'bg-white text-gray-600 hover:bg-gray-50 hover:shadow-sm border border-gray-200 hover:border-gray-300'
               )}
             >
               {category.label}
@@ -78,24 +81,30 @@ export function RecipeFilters({
         })}
       </div>
 
-      {/* Results Count */}
-      <p className="text-sm text-gray-500">
-        {resultsCount === 1 
-          ? '1 recipe found'
-          : `${resultsCount} recipes found`
-        }
-        {(searchQuery || selectedCategory !== 'all') && (
+      {/* Results Count and Clear Filters */}
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-gray-500">
+          {resultsCount === 0 && hasActiveFilters ? (
+            <span className="text-amber-600 font-medium">No recipes match your filters</span>
+          ) : resultsCount === 1 ? (
+            '1 recipe found'
+          ) : (
+            `${resultsCount} recipes found`
+          )}
+        </p>
+        
+        {hasActiveFilters && (
           <button
             onClick={() => {
               onSearchChange('');
               onCategoryChange('all');
             }}
-            className="ml-2 text-rose-500 hover:text-rose-600 font-medium"
+            className="text-sm text-rose-500 hover:text-rose-600 font-medium transition-colors"
           >
-            Clear filters
+            Clear all filters
           </button>
         )}
-      </p>
+      </div>
     </div>
   );
 }
