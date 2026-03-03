@@ -1,9 +1,19 @@
+'use client';
+
+import { useState } from 'react';
 import { getAllRecipes } from '@/lib/recipes';
 import { RecipeCard } from '@/components/RecipeCard';
+import { CategoryFilter } from '@/components/CategoryFilter';
 import { ChefHat } from 'lucide-react';
+import { Category } from '@/lib/types';
 
 export default function Home() {
-  const recipes = getAllRecipes();
+  const allRecipes = getAllRecipes();
+  const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
+
+  const filteredRecipes = selectedCategory === 'all' 
+    ? allRecipes 
+    : allRecipes.filter(recipe => recipe.category === selectedCategory);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
@@ -13,12 +23,17 @@ export default function Home() {
           <h1 className="text-2xl font-bold text-gray-900">Reciply</h1>
         </div>
         <p className="text-sm text-gray-400">
-          {recipes.length} recipes to try
+          {filteredRecipes.length} {selectedCategory === 'all' ? 'recipes' : `${selectedCategory} recipes`} to try
         </p>
       </header>
 
+      <CategoryFilter 
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+      />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {recipes.map((r) => (
+        {filteredRecipes.map((r) => (
           <RecipeCard key={r.id} recipe={r} />
         ))}
       </div>
