@@ -1,27 +1,8 @@
 import { getAllRecipes } from '@/lib/recipes';
-import { RecipeCard } from '@/components/RecipeCard';
-import { ChefHat } from 'lucide-react';
+import { HomeClient } from '@/components/HomeClient';
 
 export default function Home() {
   const recipes = getAllRecipes();
 
-  return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
-      <header className="mb-10">
-        <div className="flex items-center gap-2 mb-1">
-          <ChefHat className="w-6 h-6 text-rose-500" />
-          <h1 className="text-2xl font-bold text-gray-900">Reciply</h1>
-        </div>
-        <p className="text-sm text-gray-400">
-          {recipes.length} recipes to try
-        </p>
-      </header>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {recipes.map((r) => (
-          <RecipeCard key={r.id} recipe={r} />
-        ))}
-      </div>
-    </div>
-  );
+  return <HomeClient initialRecipes={recipes} />;
 }
