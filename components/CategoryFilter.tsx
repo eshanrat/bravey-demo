@@ -23,13 +23,13 @@ const CATEGORY_COLORS: Record<Category | 'all', string> = {
 };
 
 const ACTIVE_CATEGORY_COLORS: Record<Category | 'all', string> = {
-  all: 'bg-gray-900 text-white border-gray-900 shadow-lg ring-2 ring-gray-900 ring-opacity-20',
-  breakfast: 'bg-amber-700 text-white border-amber-700 shadow-lg ring-2 ring-amber-700 ring-opacity-20',
-  lunch: 'bg-lime-700 text-white border-lime-700 shadow-lg ring-2 ring-lime-700 ring-opacity-20',
-  dinner: 'bg-indigo-700 text-white border-indigo-700 shadow-lg ring-2 ring-indigo-700 ring-opacity-20',
-  dessert: 'bg-pink-700 text-white border-pink-700 shadow-lg ring-2 ring-pink-700 ring-opacity-20',
-  snack: 'bg-orange-700 text-white border-orange-700 shadow-lg ring-2 ring-orange-700 ring-opacity-20',
-  drink: 'bg-cyan-700 text-white border-cyan-700 shadow-lg ring-2 ring-cyan-700 ring-opacity-20',
+  all: 'bg-gray-900 text-white border-gray-900 shadow-md',
+  breakfast: 'bg-amber-700 text-white border-amber-700 shadow-md',
+  lunch: 'bg-lime-700 text-white border-lime-700 shadow-md',
+  dinner: 'bg-indigo-700 text-white border-indigo-700 shadow-md',
+  dessert: 'bg-pink-700 text-white border-pink-700 shadow-md',
+  snack: 'bg-orange-700 text-white border-orange-700 shadow-md',
+  drink: 'bg-cyan-700 text-white border-cyan-700 shadow-md',
 };
 
 interface CategoryFilterProps {
@@ -42,10 +42,11 @@ export function CategoryFilter({ activeCategory, onCategoryChange }: CategoryFil
 
   return (
     <div className="mb-8">
+      <h2 className="sr-only">Filter recipes by category</h2>
       <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
         {categories.map((category) => {
           const isActive = activeCategory === category;
-          const baseClasses = 'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer border';
+          const baseClasses = 'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500';
           const colorClasses = isActive 
             ? ACTIVE_CATEGORY_COLORS[category]
             : CATEGORY_COLORS[category];
@@ -56,7 +57,7 @@ export function CategoryFilter({ activeCategory, onCategoryChange }: CategoryFil
               onClick={() => onCategoryChange(category)}
               className={`${baseClasses} ${colorClasses} ${isActive ? 'transform scale-105' : 'hover:scale-102'}`}
               aria-pressed={isActive}
-              aria-label={`Filter by ${CATEGORY_LABELS[category]} recipes`}
+              aria-label={`${isActive ? 'Currently showing' : 'Filter by'} ${CATEGORY_LABELS[category]} recipes`}
             >
               {CATEGORY_LABELS[category]}
             </button>
