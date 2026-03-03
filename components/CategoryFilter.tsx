@@ -23,13 +23,13 @@ const CATEGORY_COLORS: Record<Category | 'all', string> = {
 };
 
 const ACTIVE_CATEGORY_COLORS: Record<Category | 'all', string> = {
-  all: 'bg-gray-900 text-white',
-  breakfast: 'bg-amber-700 text-white',
-  lunch: 'bg-lime-700 text-white',
-  dinner: 'bg-indigo-700 text-white',
-  dessert: 'bg-pink-700 text-white',
-  snack: 'bg-orange-700 text-white',
-  drink: 'bg-cyan-700 text-white',
+  all: 'bg-gray-900 text-white shadow-md',
+  breakfast: 'bg-amber-700 text-white shadow-md',
+  lunch: 'bg-lime-700 text-white shadow-md',
+  dinner: 'bg-indigo-700 text-white shadow-md',
+  dessert: 'bg-pink-700 text-white shadow-md',
+  snack: 'bg-orange-700 text-white shadow-md',
+  drink: 'bg-cyan-700 text-white shadow-md',
 };
 
 interface CategoryFilterProps {
@@ -41,24 +41,26 @@ export function CategoryFilter({ activeCategory, onCategoryChange }: CategoryFil
   const categories: (Category | 'all')[] = ['all', 'breakfast', 'lunch', 'dinner', 'dessert', 'snack', 'drink'];
 
   return (
-    <div className="flex flex-wrap gap-2 mb-8">
-      {categories.map((category) => {
-        const isActive = activeCategory === category;
-        const baseClasses = 'px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer';
-        const colorClasses = isActive 
-          ? ACTIVE_CATEGORY_COLORS[category]
-          : CATEGORY_COLORS[category];
-        
-        return (
-          <button
-            key={category}
-            onClick={() => onCategoryChange(category)}
-            className={`${baseClasses} ${colorClasses}`}
-          >
-            {CATEGORY_LABELS[category]}
-          </button>
-        );
-      })}
+    <div className="mb-8">
+      <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+        {categories.map((category) => {
+          const isActive = activeCategory === category;
+          const baseClasses = 'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer border border-transparent';
+          const colorClasses = isActive 
+            ? ACTIVE_CATEGORY_COLORS[category]
+            : CATEGORY_COLORS[category];
+          
+          return (
+            <button
+              key={category}
+              onClick={() => onCategoryChange(category)}
+              className={`${baseClasses} ${colorClasses} ${isActive ? 'transform scale-105' : 'hover:scale-102'}`}
+            >
+              {CATEGORY_LABELS[category]}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
