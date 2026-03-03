@@ -22,6 +22,16 @@ export default function Home() {
     setActiveCategory(category);
   };
 
+  const getRecipeCountText = () => {
+    if (activeCategory === 'all') {
+      return `${allRecipes.length} recipes to try`;
+    }
+    
+    const count = filteredRecipes.length;
+    const categoryName = activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1);
+    return `${count} ${categoryName} ${count === 1 ? 'recipe' : 'recipes'}`;
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
       <header className="mb-10">
@@ -30,10 +40,7 @@ export default function Home() {
           <h1 className="text-2xl font-bold text-gray-900">Reciply</h1>
         </div>
         <p className="text-sm text-gray-400">
-          {activeCategory === 'all' 
-            ? `${allRecipes.length} recipes to try`
-            : `${filteredRecipes.length} ${activeCategory} ${filteredRecipes.length === 1 ? 'recipe' : 'recipes'}`
-          }
+          {getRecipeCountText()}
         </p>
       </header>
 
@@ -50,7 +57,10 @@ export default function Home() {
 
       {filteredRecipes.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-500">No recipes found for this category.</p>
+          <div className="max-w-md mx-auto">
+            <p className="text-gray-500 text-lg mb-2">No recipes found for this category</p>
+            <p className="text-gray-400 text-sm">Try selecting a different category or check back later for new recipes!</p>
+          </div>
         </div>
       )}
     </div>
