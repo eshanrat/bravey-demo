@@ -41,15 +41,15 @@ export default function Home() {
 
       {/* Category Filter Bar */}
       <div className="mb-8">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           {CATEGORIES.map((category) => (
             <button
               key={category.value}
               onClick={() => setActiveFilter(category.value)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+              className={`px-3 py-2 sm:px-4 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                 activeFilter === category.value
-                  ? 'bg-rose-500 text-white shadow-md hover:bg-rose-600'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800'
+                  ? 'bg-rose-500 text-white shadow-md hover:bg-rose-600 transform hover:scale-105'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800 hover:scale-105'
               }`}
             >
               {category.label}
@@ -67,7 +67,7 @@ export default function Home() {
       {/* Empty state when no recipes match the filter */}
       {filteredRecipes.length === 0 && activeFilter !== 'all' && (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-500 text-lg capitalize">
             No {activeFilter} recipes found.
           </p>
           <p className="text-gray-400 text-sm mt-1">
