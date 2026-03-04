@@ -86,31 +86,6 @@ const recipes: Recipe[] = [
     ],
     createdAt: '2025-01-14T12:00:00Z',
   },
-  {
-    id: '6',
-    title: 'Peanut Butter Energy Balls',
-    description: 'No-bake oat and peanut butter bites packed with protein — perfect pre-workout snack.',
-    category: 'snack',
-    prepMins: 15,
-    cookMins: 0,
-    servings: 12,
-    imageUrl: 'https://picsum.photos/seed/energy-balls/800/500',
-    ingredients: [
-      { amount: '180', unit: 'g', name: 'rolled oats' },
-      { amount: '130', unit: 'g', name: 'peanut butter' },
-      { amount: '60', unit: 'ml', name: 'honey' },
-      { amount: '40', unit: 'g', name: 'dark chocolate chips' },
-      { amount: '2', unit: 'tbsp', name: 'chia seeds' },
-      { amount: '1', unit: 'tsp', name: 'vanilla extract' },
-    ],
-    steps: [
-      'Mix all ingredients in a large bowl until fully combined.',
-      'Cover and refrigerate for 30 minutes — this makes the mixture easier to roll.',
-      'Roll tablespoon-sized portions into balls.',
-      'Store in an airtight container in the fridge for up to 1 week.',
-    ],
-    createdAt: '2025-01-20T11:00:00Z',
-  },
 ];
 
 export function getAllRecipes(): Recipe[] {
