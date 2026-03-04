@@ -1,9 +1,19 @@
+'use client';
+
+import { useState } from 'react';
 import { getAllRecipes } from '@/lib/recipes';
-import { RecipeCard } from '@/components/RecipeCard';
+import { RecipeGrid } from '@/components/RecipeGrid';
 import { ChefHat } from 'lucide-react';
 
 export default function Home() {
   const recipes = getAllRecipes();
+  const [displayCount, setDisplayCount] = useState(recipes.length);
+  const [currentFilter, setCurrentFilter] = useState('all');
+
+  const handleFilterChange = (count: number, filter: string) => {
+    setDisplayCount(count);
+    setCurrentFilter(filter);
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
@@ -13,15 +23,11 @@ export default function Home() {
           <h1 className="text-2xl font-bold text-gray-900">Reciply</h1>
         </div>
         <p className="text-sm text-gray-400">
-          {recipes.length} recipes to try
+          {displayCount} {currentFilter === 'all' ? 'recipes' : `${currentFilter} recipes`} to try
         </p>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {recipes.map((r) => (
-          <RecipeCard key={r.id} recipe={r} />
-        ))}
-      </div>
+      <RecipeGrid recipes={recipes} onFilterChange={handleFilterChange} />
     </div>
   );
 }
