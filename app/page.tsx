@@ -15,6 +15,10 @@ export default function Home() {
     ? allRecipes 
     : allRecipes.filter(recipe => recipe.category === activeFilter);
 
+  const displayCount = activeFilter === 'all' 
+    ? `${allRecipes.length} recipes to try`
+    : `${filteredRecipes.length} ${activeFilter} recipes`;
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
       <header className="mb-10">
@@ -23,7 +27,7 @@ export default function Home() {
           <h1 className="text-2xl font-bold text-gray-900">Reciply</h1>
         </div>
         <p className="text-sm text-gray-400">
-          {allRecipes.length} recipes to try
+          {displayCount}
         </p>
       </header>
 
