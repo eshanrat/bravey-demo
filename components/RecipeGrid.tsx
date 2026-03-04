@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Recipe, Category } from '@/lib/types';
 import { RecipeCard } from './RecipeCard';
 
@@ -25,6 +25,11 @@ export function RecipeGrid({ recipes, onFilterChange }: RecipeGridProps) {
   const filteredRecipes = activeFilter === 'all' 
     ? recipes 
     : recipes.filter(recipe => recipe.category === activeFilter);
+
+  // Initialize with all recipes count
+  useEffect(() => {
+    onFilterChange?.(recipes.length, 'all');
+  }, [recipes.length, onFilterChange]);
 
   const handleFilterChange = (filter: Category | 'all') => {
     setActiveFilter(filter);
