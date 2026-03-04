@@ -16,14 +16,24 @@ const CATEGORIES: { value: Category | 'all'; label: string }[] = [
 
 interface RecipeGridProps {
   recipes: Recipe[];
+  onFilterChange?: (count: number, filter: string) => void;
 }
 
-export function RecipeGrid({ recipes }: RecipeGridProps) {
+export function RecipeGrid({ recipes, onFilterChange }: RecipeGridProps) {
   const [activeFilter, setActiveFilter] = useState<Category | 'all'>('all');
 
   const filteredRecipes = activeFilter === 'all' 
     ? recipes 
     : recipes.filter(recipe => recipe.category === activeFilter);
+
+  const handleFilterChange = (filter: Category | 'all') => {
+    setActiveFilter(filter);
+    const newCount = filter === 'all' 
+      ? recipes.length 
+      : recipes.filter(recipe => recipe.category === filter).length;
+    const filterLabel = filter === 'all' ? 'all' : filter;
+    onFilterChange?.(newCount, filterLabel);
+  };
 
   return (
     <>
@@ -33,7 +43,7 @@ export function RecipeGrid({ recipes }: RecipeGridProps) {
           {CATEGORIES.map((category) => (
             <button
               key={category.value}
-              onClick={() => setActiveFilter(category.value)}
+              onClick={() => handleFilterChange(category.value)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 activeFilter === category.value
                   ? 'bg-rose-500 text-white shadow-sm'
