@@ -1,0 +1,47 @@
+import { Category } from '@/lib/types';
+
+const CATEGORY_LABELS: Record<Category, string> = {
+  breakfast: 'Breakfast',
+  lunch: 'Lunch', 
+  dinner: 'Dinner',
+  dessert: 'Dessert',
+  snack: 'Snack',
+  drink: 'Drink',
+};
+
+const CATEGORIES: Category[] = ['breakfast', 'lunch', 'dinner', 'dessert', 'snack', 'drink'];
+
+interface CategoryFilterProps {
+  activeFilter: Category | 'all';
+  onFilterChange: (filter: Category | 'all') => void;
+}
+
+export function CategoryFilter({ activeFilter, onFilterChange }: CategoryFilterProps) {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <button
+        onClick={() => onFilterChange('all')}
+        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+          activeFilter === 'all'
+            ? 'bg-rose-500 text-white shadow-sm'
+            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        }`}
+      >
+        All
+      </button>
+      {CATEGORIES.map((category) => (
+        <button
+          key={category}
+          onClick={() => onFilterChange(category)}
+          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+            activeFilter === category
+              ? 'bg-rose-500 text-white shadow-sm'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          {CATEGORY_LABELS[category]}
+        </button>
+      ))}
+    </div>
+  );
+}
