@@ -3,19 +3,9 @@
 import { useState } from 'react';
 import { getAllRecipes } from '@/lib/recipes';
 import { RecipeCard } from '@/components/RecipeCard';
+import { CategoryFilter } from '@/components/CategoryFilter';
 import { ChefHat } from 'lucide-react';
 import { Category } from '@/lib/types';
-
-const CATEGORY_LABELS: Record<Category, string> = {
-  breakfast: 'Breakfast',
-  lunch: 'Lunch', 
-  dinner: 'Dinner',
-  dessert: 'Dessert',
-  snack: 'Snack',
-  drink: 'Drink',
-};
-
-const CATEGORIES: Category[] = ['breakfast', 'lunch', 'dinner', 'dessert', 'snack', 'drink'];
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState<Category | 'all'>('all');
@@ -39,31 +29,10 @@ export default function Home() {
 
       {/* Filter Bar */}
       <div className="mb-8">
-        <div className="flex flex-wrap gap-3">
-          <button
-            onClick={() => setActiveFilter('all')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              activeFilter === 'all'
-                ? 'bg-rose-500 text-white shadow-sm'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            All
-          </button>
-          {CATEGORIES.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveFilter(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === category
-                  ? 'bg-rose-500 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {CATEGORY_LABELS[category]}
-            </button>
-          ))}
-        </div>
+        <CategoryFilter 
+          activeFilter={activeFilter} 
+          onFilterChange={setActiveFilter} 
+        />
       </div>
 
       {/* Recipe Grid */}
